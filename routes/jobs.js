@@ -1,4 +1,4 @@
-const { models } = require('../../sequelize');
+const { models } = require('../sequelize');
 const { getIdParam } = require('../helpers');
 
 async function getAll(req, res) {

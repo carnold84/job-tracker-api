@@ -1,8 +1,8 @@
-const app = require('./express/app');
+const app = require('./app');
 const sequelize = require('./sequelize');
 const PORT = process.env.APP_PORT || 8080;
 
-async function assertDatabaseConnectionOk() {
+async function checkDBConnection() {
   console.log(`Checking database connection...`);
   try {
     await sequelize.authenticate();
@@ -15,8 +15,9 @@ async function assertDatabaseConnectionOk() {
 }
 
 async function init() {
-  await assertDatabaseConnectionOk();
-  await sequelize.sync({ force: true });
+  await checkDBConnection();
+  // sync up database
+  await sequelize.sync({ force: false });
 
   console.log(`Starting Sequelize + Express example on port ${PORT}...`);
 
