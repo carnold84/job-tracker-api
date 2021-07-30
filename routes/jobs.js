@@ -7,7 +7,7 @@ async function getAll(req, res) {
 }
 
 async function getById(req, res) {
-  const id = getIdParam(req);
+  const id = req.params.id;
   const job = await models.job.findByPk(id);
   if (job) {
     res.status(200).json(job);
@@ -24,13 +24,15 @@ async function create(req, res) {
         `Bad request: ID should not be provided, since it is determined automatically by the database.`
       );
   } else {
-    await models.job.create(req.body);
-    res.status(201).end();
+    const job = await models.job.create(req.body);
+
+    // return the new job
+    res.status(201).json(job);
   }
 }
 
 async function update(req, res) {
-  const id = getIdParam(req);
+  const id = req.params.id;
 
   // We only accept an UPDATE request if the `:id` param matches the body `id`
   if (req.body.id === id) {
@@ -39,7 +41,9 @@ async function update(req, res) {
         id: id,
       },
     });
-    res.status(200).end();
+    // get the updated job and return it
+    const job = await models.job.findByPk(id);
+    res.status(200).json(job);
   } else {
     res
       .status(400)
@@ -50,13 +54,15 @@ async function update(req, res) {
 }
 
 async function remove(req, res) {
-  const id = getIdParam(req);
+  const id = req.params.id;
+  // get the job to delete so we can return it
+  const job = await models.job.findByPk(id);
   await models.job.destroy({
     where: {
       id: id,
     },
   });
-  res.status(200).end();
+  res.status(200).json(job);
 }
 
 module.exports = {

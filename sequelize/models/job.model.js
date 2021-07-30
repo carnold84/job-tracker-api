@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 // We export a function that defines the model.
 // This function will automatically receive as parameter the Sequelize connection object.
@@ -10,6 +10,12 @@ module.exports = (sequelize) => {
     },
     dueDate: {
       type: DataTypes.DATE,
+    },
+    id: {
+      allowNull: false,
+      defaultValue: Sequelize.UUIDV4,
+      primaryKey: true,
+      type: DataTypes.UUID,
     },
     link: {
       type: DataTypes.STRING,

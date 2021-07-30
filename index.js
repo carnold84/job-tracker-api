@@ -17,7 +17,7 @@ async function checkDBConnection() {
 async function init() {
   await checkDBConnection();
   // sync up database
-  await sequelize.sync({ force: false });
+  await sequelize.sync({ force: true });
 
   console.log(`Starting Sequelize + Express example on port ${PORT}...`);
 
